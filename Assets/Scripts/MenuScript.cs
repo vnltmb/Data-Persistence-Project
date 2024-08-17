@@ -13,7 +13,7 @@ public class MenuScript : MonoBehaviour
     {
         if (DataMan.Instance.hiScore == 0)
         {
-            hiScoreText.text = "No hiScore yet!";
+            hiScoreText.text = "No HiScore yet!";
         }
         else
         {

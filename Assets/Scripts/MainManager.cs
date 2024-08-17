@@ -11,6 +11,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text HiScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -38,6 +39,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+        UpdateHiscoreText();
     }
 
     private void Update()
@@ -59,8 +62,8 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-                SceneManager.LoadScene(0);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                //SceneManager.LoadScene(0);
             }
         }
     }
@@ -74,7 +77,10 @@ public class MainManager : MonoBehaviour
     public void GameOver()
     {
         if (m_Points > DataMan.Instance.hiScore)
+        {
             SetHiScore();
+            UpdateHiscoreText();
+        }
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
@@ -83,5 +89,14 @@ public class MainManager : MonoBehaviour
     {
         DataMan.Instance.hiScore = m_Points;
         DataMan.Instance.hiScoreName = DataMan.Instance.playerName;
+        DataMan.Instance.SaveScore();
+    }
+
+    public void UpdateHiscoreText()
+    {
+        if (DataMan.Instance.hiScore == 0)
+            HiScoreText.text = "No HiScore yet!";
+        else
+            HiScoreText.text = $"HiScore: {DataMan.Instance.hiScore,3} by {DataMan.Instance.hiScoreName}";
     }
 }
